@@ -1,5 +1,7 @@
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
@@ -45,10 +47,10 @@ public class decryptMessage {
 			System.out.println("Integrity check: failed.\n");
 		} else if (checkSignature == true) {
 			System.out.println("Integrity check: Correct.\n");
-			Package plainMessage = new Package();
-
-			message.addBlock("Plain Message", data); 
-			PackageDAO.writePackage("DECRYPTED" + args[0], message);
+                        String str = new String(data, StandardCharsets.UTF_8);
+			try (PrintWriter out = new PrintWriter("DECRYPTED" + args[0])) {
+                        out.println(str);
+                    }
 		}
 
 	} else {
